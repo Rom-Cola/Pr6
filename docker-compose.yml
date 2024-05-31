@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  python_app:
+    build: .
+    container_name: python_app
+    environment:
+      - DISPLAY=:1
+    ports:
+      - "5900:5900"  # Порт для VNC
+    volumes:
+      - .:/app
+    networks:
+      - ant_network
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - ant_network
+
+networks:
+  ant_network:
+    driver: bridge
